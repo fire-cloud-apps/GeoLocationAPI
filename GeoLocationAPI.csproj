@@ -9,6 +9,7 @@
     <DockerfileContext>.</DockerfileContext>
     <AssemblyVersion>1.0.0.2</AssemblyVersion>
     <FileVersion>1.0.0.1</FileVersion>
+    <InvariantGlobalization>true</InvariantGlobalization>
   </PropertyGroup>
 
   <ItemGroup>
