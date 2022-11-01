@@ -38,8 +38,6 @@ namespace GeoLocationAPI.Controllers
         }
         #endregion
 
-
-       
         //Ref: https://github.com/dr5hn/countries-states-cities-database
     }
 }
