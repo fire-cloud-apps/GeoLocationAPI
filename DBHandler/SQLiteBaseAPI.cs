@@ -104,6 +104,7 @@ namespace GeoLocationAPI.DBHandler
             metaPagination.Rows = dataList;
             return metaPagination;
         }
+        
         private async Task<IEnumerable<TModel>> GetDataFromDB(MetaPagingParams metaParams)
         {
             metaParams.order = string.IsNullOrEmpty(metaParams.order) ? string.Empty : metaParams.order;
