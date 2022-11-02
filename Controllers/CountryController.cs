@@ -19,9 +19,9 @@ namespace GeoLocationAPI.Controllers
 
         #region Constructor
         /// <summary>
-        /// 
+        /// Constructor to handle Country Data
         /// </summary>
-        /// <param name="logger"></param>
+        /// <param name="logger">MS Logger</param>
         /// <param name="configuration"></param>
         /// <param name="connectionService"></param>
         /// <param name="httpContext"></param>

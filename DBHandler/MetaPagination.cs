@@ -28,11 +28,11 @@
         /// <summary>
         /// Nothing but a start position 'Start' or 'Offset'. Start from 0=1st page(1-10), 1-second page(11-20) etc.
         /// </summary>
-        public int offset { get; set; }
+        public int offset { get; set; } = 0;
         /// <summary>
         /// 'Length' or 'Limit'
         /// </summary>
-        public int limit { get; set; }
+        public int limit { get; set; } = 10;
         string _order = string.Empty;
         /// <summary>
         /// Order by 'asc' or 'desc'

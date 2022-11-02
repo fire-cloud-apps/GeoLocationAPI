@@ -8,10 +8,10 @@ using System.Diagnostics;
 namespace GeoLocationAPI.DBHandler
 {    
     /// <summary>
-    /// Base API which is using Postgre-SQL as a database platform
+    /// Base API which is using SQLite-SQL as a database platform
     /// </summary>
-    /// <typeparam name="TModel"></typeparam>
-    /// <typeparam name="TController"></typeparam>
+    /// <typeparam name="TModel">Comfortable with any Model</typeparam>
+    /// <typeparam name="TController">API Controller which gets inherited</typeparam>
     public class SQLiteBaseAPI<TModel, TController> : ControllerBase where TModel : class
     {
         #region Variables
@@ -112,9 +112,10 @@ namespace GeoLocationAPI.DBHandler
                 .Limit(metaParams.limit)
                 .Offset(metaParams.offset);
             query = metaParams.order.Equals("asc") ? query.OrderBy("Id") : query.OrderByDesc("Id");
+
             if (!string.IsNullOrEmpty(metaParams.search))
             {
-                query.WhereRaw($"\"{metaParams.searchcolumn}\" ILIKE '%{metaParams.search}%'");
+                query.WhereRaw($"\"{metaParams.searchcolumn}\" LIKE '%{metaParams.search}%'");
             }
             IEnumerable<TModel> taxData = await _baseAccess.ExecuteQuery(query);
 
