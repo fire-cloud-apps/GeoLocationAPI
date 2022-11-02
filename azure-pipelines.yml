@@ -22,6 +22,7 @@ steps:
     restoreSolution: '$(solution)'
 
 - task: VSBuild@1
+  displayName: "Visual Studio Dbuild"
   inputs:
     solution: '$(solution)'
     msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
@@ -29,18 +30,25 @@ steps:
     configuration: '$(buildConfiguration)'
 
 - task: VSTest@2
+  displayName: "VS TS Test"
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
+- task: Docker@2
+  displayName: "Docker Logout"
+  inputs:
+    containerRegistry: 'Docker Hub (hub.docker.com)'
+    command: 'logout'
 
 - task: Docker@2
-  inputs:    
+  displayName: "Docker Login"
+  inputs:
     containerRegistry: 'Docker Hub (hub.docker.com)'
-    repository: 'geo-loc-api'
     command: 'login'
 
 - task: Docker@2
+  displayName: "Docker Create Image & Push"
   inputs:    
     containerRegistry: 'Docker Hub (hub.docker.com)'
     repository: 'geo-loc-api'
