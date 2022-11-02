@@ -39,12 +39,14 @@ steps:
   displayName: "Docker Logout"
   inputs:
     containerRegistry: 'Docker Hub (hub.docker.com)'
+    repository: 'geo-loc-api'
     command: 'logout'
 
 - task: Docker@2
   displayName: "Docker Login"
   inputs:
     containerRegistry: 'Docker Hub (hub.docker.com)'
+    repository: 'geo-loc-api'
     command: 'login'
 
 - task: Docker@2
@@ -54,3 +56,6 @@ steps:
     repository: 'geo-loc-api'
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
+    tags: |
+      latest
+      $(Build.BuildId)
