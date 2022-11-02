@@ -33,8 +33,11 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
+
+
 - task: Docker@2
-  inputs:
+  inputs:    
+    command: 'login'
     containerRegistry: 'Docker Hub (hub.docker.com)'
     repository: 'geo-loc-api'
     command: 'buildAndPush'
