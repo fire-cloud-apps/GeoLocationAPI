@@ -54,6 +54,8 @@ steps:
   inputs:    
     containerRegistry: 'Docker Hub (hub.docker.com)'
     repository: 'geo-loc-api'
+    command: 'logout'
+    command: 'login'
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
     tags: |
