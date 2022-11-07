@@ -12,6 +12,8 @@ services.AddTransient(typeof(IConnectionService), typeof(ConnectionService));
 
 
 builder.Services.AddControllers();
+//Enable Cors
+builder.Services.AddCors();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -27,6 +29,16 @@ if (app.Environment.IsDevelopment())
 //This line enables swagger in production as well.
 app.UseSwagger();
 app.UseSwaggerUI();
+
+
+#region Enable CORS
+//Ref: https://docs.microsoft.com/en-us/aspnet/core/security/cors?view=aspnetcore-6.0
+app.UseCors(x => x
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .SetIsOriginAllowed(origin => true) // allow any origin
+    .AllowCredentials()); // allow credentials
+#endregion
 
 #region Setting custom default page
 //Specify the MyCustomPage1.html as the default page

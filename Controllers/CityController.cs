@@ -1,8 +1,10 @@
 
 ﻿using GeoLocationAPI.DBHandler;
-using GeoLocationAPI.Model;
+ using GeoLocationAPI.DBHandler.Interface;
+ using GeoLocationAPI.Model;
 using Microsoft.AspNetCore.Mvc;
-
+ using Handler = GeoLocationAPI.DBHandler.CityHandler;
+ 
 namespace GeoLocationAPI.Controllers;
 
 [Route("api/[controller]")]
@@ -36,5 +38,38 @@ public class CityController : SQLiteBaseAPI<Cities, CityController>
         _logger = logger;
     }
     #endregion
-    //Ref: https://github.com/dr5hn/countries-states-cities-database
+   
+    #region Get Details
+    [Route("Details/{id}")]
+    [HttpGet]
+    public async Task<ActionResult<Cities>> GetDetails(string id)
+    {
+        if (string.IsNullOrEmpty(id))
+        {
+            return  BadRequest();
+        }
+
+        return await GetById(int.Parse(id));
+        //return await FilterById(m => m.Id == id);//
+    }
+    #endregion
+        
+    #region Get By Batch
+    [Route("ByBatch")]
+    [HttpPost]
+    public async Task<ActionResult<IEnumerable<Cities>>> GetByPage(PageMetaData metaData)
+    {
+        IEnumerable<Cities> items;
+        IActionQuery<Cities> query = new Handler.GetBatchHandler(_connectionString, _logger, metaData);
+        items = await query.GetHandlerAsync(null);
+        BatchResult<Cities> batchResult = new BatchResult<Cities>()
+        {
+            Items = items,
+            TotalItems = GetCount().Result.Count
+        };
+        Console.WriteLine("Batch Executed");
+    
+        return Ok(batchResult);
+    }
+    #endregion
 }

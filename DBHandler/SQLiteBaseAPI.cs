@@ -48,7 +48,7 @@ namespace GeoLocationAPI.DBHandler
         /// Gets all the items from TModel Table
         /// </summary>
         /// <returns>returns IEnumerable of Type Model</returns>
-        [Route("getall")]
+        [Route("GetAll")]
         [HttpGet]
         public async Task<IEnumerable<TModel>> GetAll()
         {
@@ -61,7 +61,7 @@ namespace GeoLocationAPI.DBHandler
         /// Gets By Id from Model Table
         /// </summary>
         /// <returns>returns IEnumerable of Model Model</returns>
-        [Route("getbyId/{id}")]
+        [Route("GetById/{id}")]
         [HttpGet]
         public async Task<TModel> GetById(int id)
         {
@@ -104,6 +104,8 @@ namespace GeoLocationAPI.DBHandler
             metaPagination.Rows = dataList;
             return metaPagination;
         }
+        
+       
         
         private async Task<IEnumerable<TModel>> GetDataFromDB(MetaPagingParams metaParams)
         {

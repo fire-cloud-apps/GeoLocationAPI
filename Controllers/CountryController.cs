@@ -3,6 +3,8 @@ using GeoLocationAPI.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Principal;
+using GeoLocationAPI.DBHandler.Interface;
+using Handler = GeoLocationAPI.DBHandler.CountryHandler;
 
 namespace GeoLocationAPI.Controllers
 {
@@ -35,6 +37,40 @@ namespace GeoLocationAPI.Controllers
             _baseAccess = new SQLiteDataAccess<Countries>(_connectionString, new TraceDB());
             //For account alone we will use Account Database hence the logic was hotcoded.
             _logger = logger;
+        }
+        #endregion
+        
+        #region Get Details
+        [Route("Details/{id}")]
+        [HttpGet]
+        public async Task<ActionResult<Countries>> GetDetails(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return  BadRequest();
+            }
+
+            return await GetById(int.Parse(id));
+            //return await FilterById(m => m.Id == id);//
+        }
+        #endregion
+        
+        #region Get By Batch
+        [Route("ByBatch")]
+        [HttpPost]
+        public async Task<ActionResult<IEnumerable<Countries>>> GetByPage(PageMetaData metaData)
+        {
+            IEnumerable<Countries> items;
+            IActionQuery<Countries> query = new Handler.GetBatchHandler(_connectionString, _logger, metaData);
+            items = await query.GetHandlerAsync(null);
+            BatchResult<Countries> batchResult = new BatchResult<Countries>()
+            {
+                Items = items,
+                TotalItems = GetCount().Result.Count
+            };
+            Console.WriteLine("Batch Executed");
+    
+            return Ok(batchResult);
         }
         #endregion
         //Ref: https://github.com/dr5hn/countries-states-cities-database
