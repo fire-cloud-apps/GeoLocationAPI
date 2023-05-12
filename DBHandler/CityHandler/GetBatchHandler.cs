@@ -47,7 +47,7 @@ public class GetBatchHandler: SQLiteDataAccess<Cities>, IActionQuery<Cities>
         #region Filtering
         if (!string.IsNullOrEmpty(_metaData.SearchText))
         {
-            query.WhereRaw($"\"{_metaData.SearchField}\" LIKE '%{_metaData.SearchText}%'");
+            query.WhereRaw($"\"{_metaData.SearchField}\" LIKE '{_metaData.SearchText}%'");
         }
         IEnumerable<Cities> ctryData = await baseAccess.ExecuteQuery(query);
 
